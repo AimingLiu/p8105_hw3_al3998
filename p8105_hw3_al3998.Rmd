@@ -1,0 +1,63 @@
+---
+title: "p8105_hw3_al3998"
+author: "AimingLiu"
+date: "10/3/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+```
+
+# Load the data from the p8105.datasets
+```{r}
+library(p8105.datasets)
+data("instacart")
+```
+
+```{r}
+  aisle_form = instacart %>% 
+  group_by(aisle) %>%
+  summarize(n = n()) %>% 
+  arrange(desc(n)) 
+  aisle_num = nrow(aisle_form) 
+```
+ It can be concluded that the row number of aisle is  `r nrow(aisle_form)` and  the most items ordered from `r pull(aisle_form,aisle)[1]`
+ 
+# Making a plot
+```{r  fig.height = 5, fig.width = 5}
+  aisle_form %>% 
+  filter(n > 10000) %>% 
+  ggplot(aes(x = n,y = aisle))+
+    geom_point(aes(color = aisle))+
+  labs(
+    title = "Plot about the number of items ordered in each aisle",
+    x = "number of items",
+    y = "aisle" ,
+    caption = "Data from the instacart")+
+    theme(legend.position = "bottom")
+```
+# Making a table showing the three most popular items 
+```{r}
+ pop_form = filter(instacart,aisle %in% c("baking ingredients","dog food care","packaged vegetables fruits")) %>% 
+ group_by(aisle,product_name) %>% 
+ summarise(n_aisle_product = n()) %>%
+ group_by(aisle) %>%
+ filter(min_rank(desc(n_aisle_product))<4)
+ pop_form
+```
+#Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week
+```{r}
+  order_form = filter(instacart,product_name %in% c("Pink Lady Apples","Coffee Ice Cream")) %>% 
+  group_by(product_name,order_dow) %>% 
+  summarize(mean_order = mean(order_hour_of_day)) %>% 
+  mutate(order_dow = recode(order_dow,"0"="Sunday","1"="Monday","2"="Tuesday","3"="Wednesday","4"="Thursday","5"="Friday","6"="Saturday")) %>% 
+ pivot_wider(names_from = order_dow,
+             values_from = mean_order)
+```
+
+
+
+
