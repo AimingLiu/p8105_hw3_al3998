@@ -26,6 +26,8 @@ data("instacart")
   arrange(desc(n)) 
   aisle_num = nrow(aisle_form) 
 ```
+ It can be concluded that the row number of instacart is  `r nrow(instacart)` and  the column number of instacart is `r ncol(instacart)`.
+ The key variables in this dataset include `r instacart %>% select(user_id:product_name) %>% colnames` and `r instacart %>% select(aisle) %>% colnames`.And for example,when we see user whose id is `r pull(instacart,user_id)[1]` we can know when he/she bought it and the information about the products.
  It can be concluded that the row number of aisle is  `r nrow(aisle_form)` and  the most items ordered from `r pull(aisle_form,aisle)[1]`
  
 # Making a plot
@@ -41,28 +43,41 @@ data("instacart")
     caption = "Data from the instacart")+
     theme(legend.position = "bottom")
 ```
+There are  `r nrow(aisle_form)` aisle have items ordered more than 10000.The aisle which was ordered most is `r pull(aisle_form,aisle)[1]` and the number of it is `r pull(aisle_form,n)[1]`.The aisle which was ordered least is `r pull(aisle_form,aisle)[134]` and the number of it is `r pull(aisle_form,n)[134]`.
+
 # Making a table showing the three most popular items 
+
 ```{r}
- filter(instacart,aisle %in% c("baking ingredients","dog food care","packaged vegetables fruits")) %>% 
+ pop_form = instacart %>% 
+ filter(aisle %in% c("baking ingredients","dog food care","packaged vegetables fruits")) %>% 
  group_by(aisle,product_name) %>% 
  summarise(n_aisle_product = n()) %>%
  group_by(aisle) %>%
- filter(min_rank(desc(n_aisle_product))<4) %>% 
- knitr::kable()
+ filter(min_rank(desc(n_aisle_product))<4) 
+ 
+  knitr::kable(pop_form)
  
 ```
-#Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week
+
+The table is a `r nrow(pop_form)`* `r ncol(pop_form)` table.The three most popular items in baking ingredients are `r pop_form%>%filter(aisle=="baking ingredients")%>% pull(product_name)`,the three most popular items in dog food care are  `r pop_form%>%filter(aisle=="dog food care")%>% pull(product_name)`,the three most popular items in packaged vegetables fruits are `r pop_form%>%filter(aisle=="packaged vegetables fruits")%>% pull(product_name)`.And as we can see,the number of items in packaged vegetables fruits are much higher than dog food care which means that packaged vegetables fruits is the most popular one in these three aisle. 
+
+# Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week
+
 ```{r}
-  filter(instacart,product_name %in% c("Pink Lady Apples","Coffee Ice Cream")) %>% 
+  mean_hour_form = instacart %>% 
+  filter(product_name %in% c("Pink Lady Apples","Coffee Ice Cream")) %>% 
   group_by(product_name,order_dow) %>% 
   summarize(mean_order = mean(order_hour_of_day)) %>% 
   mutate(order_dow = recode(order_dow,"0"="Sunday","1"="Monday","2"="Tuesday","3"="Wednesday","4"="Thursday","5"="Friday","6"="Saturday")) %>% 
  pivot_wider(names_from = order_dow,
-             values_from = mean_order) %>% 
-  knitr::kable()
+             values_from = mean_order) 
+  
+ knitr::kable(mean_hour_form)
  
 ```
 
+This is  a `r nrow(mean_hour_form)`* `r ncol(mean_hour_form)` table.As we can see from the result,on each day of a week,the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered are more than 11 and less than 16.And also on each day of a week,the mean hour of the day in Coffee Ice Cream is larger than 
+Pink Lady Apples except Friday.
 #Problem 2
 ```{r}
   library(p8105.datasets)
@@ -118,6 +133,8 @@ In 2010,the abbreviation of the states which were observed at 7 or more location
   
 average_plot
 ```
+The name of x-axis is `Year`,and the name of y-axis is `average of the data value`.
+
 ```{r fig.height = 5, fig.width = 15}
  ny_data_1 = brfss_form %>% 
  filter(locationabbr == "NY" & year == "2006") %>% 
@@ -145,6 +162,11 @@ average_plot
  
  ny_data_1+ny_data_2
 ```
+
+As we can see from the two-panel plot,in year 2006,the difference in data_value for response `Poor` between different locationdescs is not very much, so the line is flat.Also,the data_value for response `Good`,`Very good` and `Excellent` changed a lot between different locationdescs,the line of them have ups and downs.
+
+In year 2010,the difference in data_value for response `Poor` between different locationdescs is not very much,so the line is flat.Also,the data_value for response `Good`,`Very good`  changed a lot between different locationdescs,the line of them have ups and downs.For response `Good`,the data value in New York country is much lower than other locationdescs.
+
 
 #Problem 3
 ```{r}
@@ -185,7 +207,8 @@ For the resulting dataset,there are `r nrow(accel_data)` observations and `r nco
     y = "accel_sum"
   )
 ```
-
+  
+  As we can see from the graphic,the  24-hour activity time courses for Monday suddenly increases and then decreases,for Tuesday and Wednesday the lines are smooth,and for Thursday the value of week 5 is much higher than weeks before.For Friday,its line suddenly drops and then increase sharply.For Saturday ,its line has a dramatic decline and then there is no difference in week 4 and 5,and the value is really small compared to others.The 24-hour activity time courses for Sunday keep decreasing except week 3.
 
 
 
