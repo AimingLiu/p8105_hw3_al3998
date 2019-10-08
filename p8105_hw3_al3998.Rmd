@@ -43,7 +43,7 @@ data("instacart")
     caption = "Data from the instacart")+
     theme(legend.position = "bottom")
 ```
-There are  `r nrow(aisle_form)` aisle have items ordered more than 10000.The aisle which was ordered most is `r pull(aisle_form,aisle)[1]` and the number of it is `r pull(aisle_form,n)[1]`.The aisle which was ordered least is `r pull(aisle_form,aisle)[134]` and the number of it is `r pull(aisle_form,n)[134]`.
+There are  `r aisle_form %>%filter(n>10000) %>% pull(n) %>% length()` aisle have items ordered more than 10000.The aisle which was ordered most is `r pull(aisle_form,aisle)[1]` and the number of it is `r pull(aisle_form,n)[1]`.The aisle which was ordered least is `r pull(aisle_form,aisle)[134]` and the number of it is `r pull(aisle_form,n)[134]`.
 
 ## Making a table showing the three most popular items 
 
