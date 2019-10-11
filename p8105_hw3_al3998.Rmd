@@ -77,8 +77,8 @@ The table is a `r nrow(pop_form)`* `r ncol(pop_form)` table.The three most popul
  
 ```
 
-This is  a `r nrow(mean_hour_form)`* `r ncol(mean_hour_form)` table.As we can see from the result,on each day of a week,the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered are more than 11 and less than 16.And also on each day of a week,the mean hour of the day in Coffee Ice Cream is larger than 
-Pink Lady Apples except Friday.
+This is  a `r nrow(mean_hour_form)`* `r ncol(mean_hour_form)` table.As we can see from the result,on each day of a week,the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered are more than 11 and less than 16.And also on each day of a week,the mean hour of the day in Coffee Ice Cream is larger than Pink Lady Apples except Friday.
+
 # Problem 2
 ```{r}
   library(p8105.datasets)
@@ -191,7 +191,7 @@ In year 2010,the data_value for response `Poor` is also the lowest one and is ve
 Compared the two graphics, the location of `Poor`,`Excellent` and `Very good` are similar.The curve of `Fair` is more dispersive in 2010 than in 2006 and the curve of `Good` is more dispersive in 2006.
 
 # Problem 3
-```{r include=F}
+```{r message=F}
   accel_data = read_csv("./accel_data.csv") %>% 
   janitor::clean_names() %>% 
   pivot_longer(cols = 4:1443,names_to = "activity",names_prefix = "activity_",values_to = "activity_count") %>% 
