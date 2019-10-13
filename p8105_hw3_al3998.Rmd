@@ -134,7 +134,7 @@ In 2010,the abbreviation of the states which were observed at 7 or more location
   
 average_plot
 ```
-The name of x-axis is `Year`,and the name of y-axis is `average of the data value`.
+The name of x-axis is `Year`,and the name of y-axis is `average of the data value`.The smallest value is `r excellent_form %>%ungroup(locationabbr) %>% filter(mean_data == min(mean_data))%>% pull(mean_data)` which is in `r excellent_form %>%ungroup(locationabbr) %>% filter(mean_data == min(mean_data))%>% pull(locationabbr)` in year `2005` and the largest value is `r excellent_form%>%ungroup(locationabbr) %>% filter(mean_data == max(mean_data))%>% pull(mean_data)` which is in `r excellent_form %>% ungroup(locationabbr) %>% filter(mean_data == max(mean_data))%>% pull(locationabbr)` in year `2002`
 
 ## Make a two-panel plot
 ```{r fig.height = 5, fig.width = 10}
@@ -150,6 +150,7 @@ The name of x-axis is `Year`,and the name of y-axis is `average of the data valu
   )+ theme(legend.position = "bottom", plot.title = element_text(size = 24)) +
     facet_grid(~year)  
 ```
+As we can see from the the two-panel plot,both in year `2006` and `2010`,the data value of `Poor` for all the locationdesc is the lowest among different responses.In year `2006` ,in Kings county and Queens county,the data value for `Good` is the highest among different responses,and also the changing curve are similar to each other in these two locationdescs.In other locationdescs, the data value for `Very good` is the highest among different responses.In year `2010`,in Kings county,Queens county and Bronx county,the data value for `Good` is the highest among different responses,in other locationdescs, the data value for `Very good` is the highest among different responses.
 
 
 ```{r}
@@ -183,6 +184,7 @@ The name of x-axis is `Year`,and the name of y-axis is `average of the data valu
   
  ny_2006/ny_2010
 ```
+
 
 As we can see from the two-panel plot,in year 2006,the data_value for response `Poor` is lowest and is very concenreated.The degree of concentration of fair is more dispersive than `Poor` but is more concentrated than `Excellent`,`Good` and `Very good`.The degrees of concentration in  `Excellent` and `Very good`  are similar to each other.The data_value of ` Good` is the most dispersive one.
 
